@@ -1,0 +1,76 @@
+Admin 
+
+
+Attendance marking Databsase
+	user_reg table
+	CREATE TABLE `gencproject`.`userreg` (
+  `firstname` VARCHAR(20) NOT NULL,
+  `lastname` VARCHAR(20) NOT NULL,
+  `empid` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`empid`));
+
+	admin_reg table
+CREATE TABLE `gencproject`.`adminreg` (
+  `firstname` VARCHAR(20) NOT NULL,
+  `lastname` VARCHAR(20) NOT NULL,
+  `age` INT NOT NULL,
+  `gender` VARCHAR(10) NOT NULL,
+  `number` VARCHAR(45) NOT NULL,
+  `adminid` INT NOT NULL AUTO_INCREMENT,
+  `password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`adminid`));
+
+	trainer_details table
+CREATE TABLE `gencproject`.`trainerreg` (
+  `trainerId` INT NOT NULL,
+  `trainerName` VARCHAR(45) NOT NULL,
+  `contactNumber` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `skillset` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`trainerId`));
+
+alter table trainerreg add foreign key(skillset) references skillset(skilltype);
+
+	session_details table
+CREATE TABLE `gencproject`.`sessiondet` (
+  `sessionid` INT NOT NULL,
+  `sessiondes` VARCHAR(100) NOT NULL,
+  `skillset` VARCHAR(45) NOT NULL,
+  `sessiondate` DATE NOT NULL,
+  `sessiontime` TIME NOT NULL,
+  `availslots` INT NOT NULL,
+  PRIMARY KEY (`sessionid`));
+
+	skillset table
+CREATE TABLE `gencproject`.`skillset` (
+  `skillid` INT NOT NULL,
+  `skilltype` VARCHAR(45) NULL,
+  `skilldes` VARCHAR(100) NULL,
+  PRIMARY KEY (`skillid`));
+
+alter table sessiondet add foreign key(skillset) references skillset(skilltype);
+
+ALTER TABLE `gencproject`.`adminreg` 
+ADD COLUMN `approval` TINYINT(1) NULL AFTER `password`;
+
+enroll
+
+CREATE TABLE `gencproject`.`enrolldet` (
+  `sno` INT NOT NULL AUTO_INCREMENT,
+  `empid` INT NULL,
+  `sessionid` INT NULL,
+  PRIMARY KEY (`sno`),
+  INDEX `fempid_idx` (`empid` ASC) VISIBLE,
+  INDEX `fsessionid_idx` (`sessionid` ASC) VISIBLE,
+  CONSTRAINT `fempid`
+    FOREIGN KEY (`empid`)
+    REFERENCES `gencproject`.`userreg` (`empid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fsessionid`
+    FOREIGN KEY (`sessionid`)
+    REFERENCES `gencproject`.`sessiondet` (`sessionid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
