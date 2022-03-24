@@ -1,1 +1,48 @@
 Demo text
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $("#loginform").validate({
+                rules:{
+                    login:{
+                        required:true,
+                        minlength: 4,
+                        maxlength: 16,
+                    },
+                    pswd:{
+                        required:true,
+                        minlength:6,
+                        maxlength:16,
+                    },
+                },
+                message:{
+                    required:"This fielf should be filled"
+                },
+                pswd:{
+                    required:"This field should be filled"
+                },
+            })
+        })
+    </script>
+</head>
+<body>
+    <form id="loginform" action="" method="post">
+        Your username:
+        <input type="text" name="login" required/>
+        Your password:
+        <input type="password" name="pswd" />
+        <input type="submit" name="enter" value="Enter" required/></form>
+</body>
+</html>
